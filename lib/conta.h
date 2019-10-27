@@ -15,12 +15,15 @@ typedef struct Conta
     float saldo;
     int ativa;
 } TConta;
+
 void depositar(TConta conta, float valor)
 {
     conta.saldo += valor;
 };
-int debitar(TConta conta, float quantia){
-    if(conta.saldo + 1000 < quantia)
+
+int debitar(TConta conta, float quantia)
+{
+    if(conta.saldo < quantia)
     {
         conta.saldo -= quantia;
         return 1;
@@ -29,10 +32,11 @@ int debitar(TConta conta, float quantia){
     {
         return 0;
     }
-    
 };
-int transferir(TConta origem, TConta destino,float quantia){
-    if(origem.saldo + 1000  > quantia)
+
+int transferir(TConta origem, TConta destino,float quantia)
+{
+    if(origem.saldo > quantia)
     {
         destino.saldo += quantia;
         origem.saldo -= quantia;
@@ -43,6 +47,7 @@ int transferir(TConta origem, TConta destino,float quantia){
         return 0;
     }
 };
+
 void imprimirConta(TConta conta){
     printf("Numero da conta: %i\n", conta.numero);
     printf("Cliente: %i\n", conta.cliente.nome);
