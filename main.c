@@ -49,7 +49,7 @@ int main()
         case 2:
             printf("Para qual usuario voce quer cadastrar uma conta ?\n");
             //implementar o listaClientes do GerenciaClientes.h
-            scanf("%i", &conta.numero);
+            scanf("%i", &numeroConta);
             fflush(stdin);
 
             printf("Digite o dia da criacao da conta \n");
@@ -64,6 +64,7 @@ int main()
             scanf("%i", &sData.ano);
             fflush(stdin);
 
+            conta.numero = numeroConta;
             conta.dataAbertura = sData;
             conta.cliente = clientes[conta.numero];
             conta.saldo = 1000.0;
@@ -71,6 +72,12 @@ int main()
 
             adicionarConta(conta);
 
+            break;
+        case 3: 
+
+            listarConta();
+            break;
+        case 4: 
             break;
         case 9:
             return 0;
