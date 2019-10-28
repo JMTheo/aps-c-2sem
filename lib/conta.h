@@ -23,7 +23,7 @@ void depositar(TConta conta, float valor)
 
 int debitar(TConta conta, float quantia)
 {
-    if(conta.saldo < quantia)
+    if(conta.saldo + 1000 < quantia)
     {
         conta.saldo -= quantia;
         return 1;
