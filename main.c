@@ -10,7 +10,7 @@ int main()
     TCliente cliente[QTD_CONTAS];
     TConta conta;
     TData sData;
-    int opcao, controle =1;
+    int opcao, numOrig, controle = 1;
     float vlr = 0;
 
     while (controle)
@@ -90,21 +90,21 @@ int main()
             scanf("%i", &numeroConta);
 
             printf("Digite o valor a ser depositado \n");
-            scanf("%i", &vlr);
+            scanf("%f", &vlr);
 
-            depositar(getConta(numeroConta), vlr);
+            functionFactory(opcao,numeroConta, 0, vlr, 0);
             break;
         case 6:
             //Debitar(sacar)
             printf("Digite o numero da conta que vc deseja sacar \n");
             scanf("%i", &numeroConta);
 
-            printf("Digite o valor a ser sacado");
+            printf("Digite o valor a ser sacado\n");
             scanf("%f", &vlr);
 
-            if(debitar(getConta(numeroConta), vlr))
+            if(functionFactory(opcao,numeroConta,0,vlr,0))
             {
-                printf("Transacao realizada com sucesso !");
+                printf("Transacao realizada com sucesso !\n");
                 printf("Novo Saldo: %.2f\n", getConta(numeroConta).saldo);
             }
             else
@@ -116,8 +116,6 @@ int main()
             break;
         case 7:
             //Transferir dinheiro
-            int numOrig;
-
             printf("Digite o numero da conta que recebera a transferencia \n");
             scanf("%i", &numeroConta);
             fflush(stdin);
@@ -142,8 +140,6 @@ int main()
                 printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
                 printf("Valor a ser transferido> %.2f \n", vlr);
             }
-
-
             break;
         case 8: 
             //Remover conta

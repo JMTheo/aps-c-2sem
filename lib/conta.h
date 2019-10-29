@@ -16,22 +16,16 @@ typedef struct Conta
     int ativa;
 } TConta;
 
-void depositar(TConta conta, float valor)
+TConta depositar(TConta conta, float valor)
 {
     conta.saldo += valor;
+    return conta;
 };
 
-int debitar(TConta conta, float quantia)
+TConta debitar(TConta conta, float quantia)
 {
-    if(conta.saldo + 1000 < quantia)
-    {
-        conta.saldo -= quantia;
-        return 1;
-    } 
-    else
-    {
-        return 0;
-    }
+    conta.saldo -= quantia;
+    return conta;
 };
 
 int transferir(TConta origem, TConta destino,float quantia)
