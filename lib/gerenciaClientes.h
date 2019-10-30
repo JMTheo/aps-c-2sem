@@ -38,18 +38,12 @@ char* listarClientes(){
         lista[i] = clientes[i].telefone;
         lista[i] = '\0';
     } */
-    //linha | coluna
-    char * lista[2][11];
+/*     char *lista;
     for (int i = 0; i < QTD_CONTAS; i++)
     {
-        for (int j = 0; j < 11; j++)
-        {
-            lista[i][j] = clientes[i].nome;
-            lista[i][j] = clientes[i].cpf;
-            lista[i][j] = clientes[i].telefone;
-        }
-        
+        lista[i] = clientes[i].nome;
     }
+     */
     
    //return lista;
 };

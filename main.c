@@ -12,6 +12,7 @@ int main()
     TData sData;
     int opcao, numOrig, controle = 1;
     float vlr = 0;
+    char *lista[300];
 
     while (controle)
     {
@@ -78,7 +79,13 @@ int main()
             break;
         case 3: 
             //Listar conta
-            listarConta();
+            //listarConta();
+            *lista = listarClientes();
+            for (int i = 0; i < QTD_CONTAS; i++)
+            {
+                printf("Nome: %s\n", lista[i]);
+            }
+            
             break;
         case 4: 
             //Pesquisar conta
@@ -102,17 +109,7 @@ int main()
             printf("Digite o valor a ser sacado\n");
             scanf("%f", &vlr);
 
-            if(functionFactory(opcao,numeroConta,0,vlr,0))
-            {
-                printf("Transacao realizada com sucesso !\n");
-                printf("Novo Saldo: %.2f\n", getConta(numeroConta).saldo);
-            }
-            else
-            {
-                printf("Saldo insuficiente \n");
-                printf("Saldo: %.2f \n", getConta(numeroConta).saldo);
-                printf("Valor a ser sacado: %.2f \n", vlr);
-            }
+            functionFactory(opcao,numeroConta,0,vlr,0);
             break;
         case 7:
             //Transferir dinheiro

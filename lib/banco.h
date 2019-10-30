@@ -60,11 +60,8 @@ int atualizaConta(TConta contaNova)
         {
             contas[i].saldo = contaNova.saldo;
             status = 1;
-            printf("Status: %i\n", status);
         }
     }
-    printf("Status 2: %i\n", status);
-
     return status;
 }
 
@@ -78,13 +75,23 @@ int functionFactory(int operacao, int numeroContaMod, int numeroContaDest, float
         //Depositar
         contaAtualizada = depositar(contaOrig, vlr);
         atualizaConta(contaAtualizada);
+        
         break;
     case 6:
         if(contaOrig.saldo + 1000 > vlr)
         {
             contaAtualizada = debitar(contaOrig, vlr);
             atualizaConta(contaAtualizada);
+            printf("Transacao realizada com sucesso !\n");
+            printf("Novo Saldo: %.2f\n", getConta(numeroConta).saldo);
         }
+        else
+        {
+            printf("Saldo insuficiente \n");
+            printf("Saldo: %.2f \n", getConta(numeroConta).saldo);
+            printf("Valor a ser sacado: %.2f \n", vlr);
+        }
+        
         return 0;
       break;
     default:
