@@ -11,9 +11,15 @@ void listarConta()
 {
     for (int i = 0; i < QTD_CONTAS; i++)
     {
-        printf("Conta #%i\n", i);
-        printf("Saldo: %.2f\n", contas[i].saldo);
-        printf("Nome do Cliente: %s \n", contas[i].cliente.nome);
+        if(contas[i].ativa)
+        {
+            imprimirConta(contas[i]);
+        }
+        else
+        {
+            printf("Conta #%i estah desativada ! \n", i);
+        }
+        
     }
 };
 
@@ -22,10 +28,10 @@ int main()
     TCliente cliente;
     TConta conta;
     TData sData;
-    int opcao, numOrig, controleCad = 1, controle = 1;
+    int opcao, numOrig, numDestino, controleCad = 1, controle = 1;
     char opcaoCad;
     float vlr = 0;
-    char *lista[300];
+    char* lista = listarClientes();
 
     while (controle)
     {
@@ -60,11 +66,17 @@ int main()
 
                 adicionarCliente(cliente);
 
-                printf("totalClientes: %i \n", totalClientes);
                 if (totalClientes == QTD_CLIENTES)
                 {
                     controleCad = 0;
                     printf("Numero maximo de clientes cadastrados ! \n");
+                    lista = listarClientes();
+                    for (int i = 0; i < QTD_CLIENTES; i++)
+                    {
+                        /* code */
+                        printf("Opa: \n %s\n", lista+i);
+                    }
+                    
                 }
                 else
                 {
@@ -106,6 +118,7 @@ int main()
             conta.ativa = 1;
 
             adicionarConta(conta);
+            printf("TotalClientes");
 
             break;
         case 3: 
@@ -151,7 +164,7 @@ int main()
         case 7:
             //Transferir dinheiro
             printf("Digite o numero da conta que recebera a transferencia \n");
-            scanf("%i", &numeroConta);
+            scanf("%i", &numDestino);
             fflush(stdin);
 
             printf("Digite o numero da conta que ira transferir o dinheiro \n");
@@ -162,7 +175,7 @@ int main()
             scanf("%f", &vlr);
             fflush(stdin);
 
-            if(transferir(getConta(numeroConta), getConta(numOrig), vlr))
+            if(transferir(getConta(numOrig), getConta(numDestino), vlr))
             {
                 printf("Saldo transferido com sucesso !\n");
                 printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
@@ -222,16 +235,13 @@ int existeCPF(TCliente cliente)
             return 0;
         }
     }
-};
+}
 
 void adicionarConta(TConta conta)
 {
-    if (contas[numeroConta].numero == numeroConta)
-    {
-        contas[numeroConta] = conta;
-        numeroConta++;
-    }    
-};
+    contas[numeroConta] = conta;
+    contas[numeroConta].numero = numeroConta;
+}
 
 TConta getConta(int numero)
 {
@@ -242,7 +252,7 @@ TConta getConta(int numero)
             return contas[i];
         }
     }
-};
+}
 
 int removerConta(int numero)
 {
@@ -258,7 +268,7 @@ int removerConta(int numero)
             return 0;
         }
     }
-};
+}
 
 void depositar(TConta conta, float valor)
 {
@@ -293,8 +303,15 @@ int transferir(TConta origem, TConta destino, float quantia)
 void imprimirConta(TConta conta)
 {
     printf("Numero da conta: %i\n", conta.numero);
-    printf("Cliente: %i\n", conta.cliente.nome);
+    printf("Cliente: %s\n", conta.cliente.nome);
     printf("Data de abertura: %i/%i/%i\n", conta.dataAbertura.dia, conta.dataAbertura.mes, conta.dataAbertura.ano);
     printf("Saldo: %.2f\n", conta.saldo);
     printf("Status da conta: %s \n", conta.ativa == 1 ? "Ativa" : "Fechada");
-};
+}
+
+char* listarClientes()
+{
+    //char *lista = malloc(QTD_CLIENTES * sizeof(char));
+    // const char *lista[2] = {clientes[0].nome, clientes[1].nome};
+    // return lista;
+}
