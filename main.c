@@ -14,7 +14,7 @@ int main()
 {
     TCliente cliente;
     TConta conta;
-    int opcao, numOrig, numDestino, controleCad = 1, controle = 1;
+    int opcao, i, numOrig, numDestino, controleCad = 1, controle = 1;
     char opcaoCad;
     float vlr = 0;
 
@@ -163,6 +163,9 @@ int main()
         case 7:
             //Transferir dinheiro
             system("cls");
+
+            listarContas();
+
             printf("Digite o numero da conta que recebera a transferencia \n");
             scanf("%i", &numDestino);
             fflush(stdin);
