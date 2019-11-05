@@ -232,8 +232,8 @@ int existeCPF(TCliente cliente)
 {   
     int status = 0;
     int comparacao;
-
-    for (int i = 0; i < QTD_CONTAS; i++)
+    int i;
+    for (i = 0; i < QTD_CONTAS; i++)
     {
         //strcmp ==0 (iguais) 
         comparacao = strcmp(cliente.cpf, clientes[i].cpf);
@@ -254,7 +254,8 @@ void adicionarConta(TConta conta)
 
 TConta getConta(int numero)
 {
-    for (int i = 0; i < QTD_CONTAS; i++)
+    int i;
+    for (i = 0; i < QTD_CONTAS; i++)
     {
         if (contas[i].numero == numero)
         {
@@ -265,7 +266,8 @@ TConta getConta(int numero)
 
 int removerConta(int numero)
 {
-    for (int i = 0; i < QTD_CONTAS; i++)
+    int i;
+    for (i = 0; i < QTD_CONTAS; i++)
     {
         if (contas[i].numero == numero)
         {
@@ -320,7 +322,8 @@ void imprimirConta(TConta conta)
 // As tres funcoes modificadas
 void listarContas()
 {
-    for (int i = 0; i < QTD_CONTAS; i++)
+    int i;
+    for (i = 0; i < QTD_CONTAS; i++)
     {
         if (contas[i].ativa)
         {
@@ -345,7 +348,8 @@ void pesquisarConta(int numero)
 
 void listarClientes()
 {
-    for (int i = 0; i < QTD_CLIENTES; i++)
+    int i;
+    for (i = 0; i < QTD_CLIENTES; i++)
     {
         if(strcmp(clientes[i].nome, ""))
         {
