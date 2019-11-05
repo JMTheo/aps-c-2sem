@@ -3,5 +3,5 @@
 TCliente clientes[QTD_CLIENTES];
 int totalClientes = 0;
 void adicionarCliente(TCliente cliente);
-int existeCPF(TCliente cliente);
-char *listarClientes();
+int existeCPF(TCliente cliente); 
+void listarClientes(); //alterado

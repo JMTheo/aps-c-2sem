@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "lib/banco.h"
 #include "lib/gerenciaClientes.h"
@@ -7,38 +8,23 @@
 
 #define QTD_CONTAS 2
 
-void listarConta()
-{
-    for (int i = 0; i < QTD_CONTAS; i++)
-    {
-        if(contas[i].ativa)
-        {
-            imprimirConta(contas[i]);
-        }
-        else
-        {
-            printf("Conta #%i estah desativada ! \n", i);
-        }
-        
-    }
-};
+
 
 int main()
 {
     TCliente cliente;
     TConta conta;
-    TData sData;
     int opcao, numOrig, numDestino, controleCad = 1, controle = 1;
     char opcaoCad;
     float vlr = 0;
-    char* lista = listarClientes();
 
+    system("cls");
     while (controle)
     {
         printf("======== Menu do Banco ======== \n");
         printf("1 - Cadastrar Cliente \n");
         printf("2 - Cadastrar Conta \n");
-        printf("3 - Listar Conta \n");
+        printf("3 - Listar Contas \n");
         printf("4 - Pesquisar Conta \n");
         printf("5 - Depositar \n");
         printf("6 - Debitar (Sacar) \n");
@@ -52,14 +38,21 @@ int main()
         switch (opcao)
         {
         case 1:
+            system("cls");
             while (controleCad)
             {
                 printf("Digite o nome do cliente: \n");
                 gets(cliente.nome);
 
-                printf("Digite o cpf do cliente: \n");
-                gets(cliente.cpf);
-
+                do
+                {
+                    printf("Digite o cpf do cliente: \n");
+                    gets(cliente.cpf);
+                    if (existeCPF(cliente))
+                        printf("Voce deve digitar um cpf valido (unico) \n");
+                    
+                } while (existeCPF(cliente));
+                
                 printf("Digite o telefone do cliente: \n");
                 gets(cliente.telefone);
                 fflush(stdin);
@@ -69,17 +62,14 @@ int main()
                 if (totalClientes == QTD_CLIENTES)
                 {
                     controleCad = 0;
+                    system("cls");
+
                     printf("Numero maximo de clientes cadastrados ! \n");
-                    lista = listarClientes();
-                    for (int i = 0; i < QTD_CLIENTES; i++)
-                    {
-                        /* code */
-                        printf("Opa: \n %s\n", lista+i);
-                    }
                     
                 }
                 else
                 {
+                    system("cls");
                     printf("Deseja continuar cadastrando mais clientes ? (s/n) \n");
                     scanf(" %c", &opcaoCad);
                     fflush(stdin);
@@ -92,46 +82,53 @@ int main()
             }
             break;
         case 2:
+            system("cls");
+            listarClientes();
+
             printf("Para qual usuario voce quer cadastrar uma conta ?\n");
-            //implementar o listaClientes do GerenciaClientes.h
-            //char listaDeClientes[QTD_CONTAS][11] = listarClientes();
             scanf("%i", &numeroConta);
             fflush(stdin);
 
             printf("Digite o DIA da criacao da conta \n");
-            scanf("%i", &sData.dia);
+            scanf("%i", &conta.dataAbertura.dia);
             fflush(stdin);
 
             printf("Digite o MES da criacao da conta \n");
-            scanf("%i", &sData.mes);
+            scanf("%i", &conta.dataAbertura.mes);
             fflush(stdin);
 
             printf("Digite o ANO da criacao da conta \n");
-            scanf("%i", &sData.ano);
+            scanf("%i", &conta.dataAbertura.ano);
             fflush(stdin);
 
+            printf("Digite o saldo inicial da conta \n");
+            scanf("%f", &conta.saldo);
 
             conta.numero = numeroConta;
-            conta.dataAbertura = sData;
             conta.cliente = clientes[conta.numero];
-            conta.saldo = 1000.0;
             conta.ativa = 1;
 
             adicionarConta(conta);
-            printf("TotalClientes");
-
+            system("cls");
             break;
         case 3: 
-            //Listar conta
-            listarConta();
+            //Listar contas
+            system("cls");
+            listarContas();
             
             break;
         case 4: 
             //Pesquisar conta
+            printf("Digite o numero da conta para pesquisa \n");
+            scanf("%i", &numeroConta);
+
+            pesquisarConta(numeroConta);
+
             break;
         case 5:
             //Depositar
-
+            system("cls");
+            listarContas();
             printf("Digite o numero da conta que vc deseja depositar \n");
             scanf("%i", &numeroConta);
 
@@ -142,6 +139,8 @@ int main()
             break;
         case 6:
             //Debitar(sacar)
+            system("cls");
+            listarContas();
             printf("Digite o numero da conta que vc deseja sacar \n");
             scanf("%i", &numeroConta);
 
@@ -163,6 +162,7 @@ int main()
             break;
         case 7:
             //Transferir dinheiro
+            system("cls");
             printf("Digite o numero da conta que recebera a transferencia \n");
             scanf("%i", &numDestino);
             fflush(stdin);
@@ -189,8 +189,9 @@ int main()
             }
             break;
         case 8: 
+            system("cls");
             //Remover conta
-            printf("Digite o numero da conta que vc deseja excluir \n ");
+            printf("Digite o numero da conta que vc deseja excluir \n");
             scanf("%i", &numeroConta);
             fflush(stdin);
 
@@ -203,6 +204,8 @@ int main()
             break;
         case 9: 
             //Encerrrar o programa
+            system("cls");
+            printf("Desligando ...\n");
             return 0;
             break;
         default:
@@ -223,18 +226,21 @@ void adicionarCliente(TCliente cliente)
 }
 
 int existeCPF(TCliente cliente)
-{
+{   
+    int status = 0;
+    int comparacao;
+
     for (int i = 0; i < QTD_CONTAS; i++)
     {
-        if (clientes[i].cpf == cliente.cpf)
+        //strcmp ==0 (iguais) 
+        comparacao = strcmp(cliente.cpf, clientes[i].cpf);
+        if(comparacao == 0)
         {
-            return 1;
-        }
-        else
-        {
-            return 0;
+           status = 1;
         }
     }
+
+    return status;
 }
 
 void adicionarConta(TConta conta)
@@ -290,7 +296,7 @@ int debitar(TConta conta, float quantia)
 int transferir(TConta origem, TConta destino, float quantia)
 {
     int status = 0;
-    if (origem.saldo > quantia)
+    if (origem.saldo + 1000 > quantia)
     {
         contas[destino.numero].saldo += quantia;
         contas[origem.numero].saldo -= quantia;
@@ -302,16 +308,48 @@ int transferir(TConta origem, TConta destino, float quantia)
 
 void imprimirConta(TConta conta)
 {
-    printf("Numero da conta: %i\n", conta.numero);
+    printf("=== Numero da conta: %i ===\n", conta.numero);
     printf("Cliente: %s\n", conta.cliente.nome);
     printf("Data de abertura: %i/%i/%i\n", conta.dataAbertura.dia, conta.dataAbertura.mes, conta.dataAbertura.ano);
-    printf("Saldo: %.2f\n", conta.saldo);
-    printf("Status da conta: %s \n", conta.ativa == 1 ? "Ativa" : "Fechada");
+    printf("Saldo: %.2f\n\n", conta.saldo);
 }
 
-char* listarClientes()
+// As tres funcoes modificadas
+void listarContas()
 {
-    //char *lista = malloc(QTD_CLIENTES * sizeof(char));
-    // const char *lista[2] = {clientes[0].nome, clientes[1].nome};
-    // return lista;
+    for (int i = 0; i < QTD_CONTAS; i++)
+    {
+        if (contas[i].ativa)
+        {
+            imprimirConta(contas[i]);
+        }
+        else
+        {
+            printf("Conta #%i estah desativada ! \n", i);
+        }
+    }
+};
+
+void pesquisarConta(int numero)
+{
+    TConta c = getConta(numero);
+    
+    if(c.ativa)
+        imprimirConta(c);
+    else
+        printf("Conta #%i estah desativada ! \n", c.ativa);
+}
+
+void listarClientes()
+{
+    for (int i = 0; i < QTD_CLIENTES; i++)
+    {
+        if(strcmp(clientes[i].nome, ""))
+        {
+            printf("=== Lista de Clientes === \n");
+            printf("Cliente: #%i\n", i);
+            printf("Nome: %s\n\n", clientes[i].nome);
+        }
+    }
+    
 }

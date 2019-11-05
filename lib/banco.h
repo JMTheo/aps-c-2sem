@@ -2,7 +2,7 @@
 TConta contas[10];
 int numeroConta = 0;
 void adicionarConta(TConta conta);
-char *listarContas();
-char *pesquisarConta(int numero);
+void listarContas(); //alterado
+void pesquisarConta(int numero);//alterado
 TConta getConta(int numero);
 int removerConta(int numero);
