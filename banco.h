@@ -1,6 +1,6 @@
 #include "conta.h"
 
-#define QTD_CONTAS 2
+#define QTD_CONTAS 5
 TConta contas[QTD_CONTAS];
 int numeroConta = 0, statusCad = 0;
 void adicionarConta(TConta conta);

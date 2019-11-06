@@ -1,5 +1,5 @@
 #include "cliente.h"
-#define QTD_CLIENTES 2
+#define QTD_CLIENTES 5
 TCliente clientes[QTD_CLIENTES];
 int totalClientes = 0, statusClienteCad;
 void adicionarCliente(TCliente cliente);
