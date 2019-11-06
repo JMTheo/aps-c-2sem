@@ -6,10 +6,6 @@
 #include "lib/gerenciaClientes.h"
 #include "lib/cliente.h"
 
-#define QTD_CONTAS 2
-
-
-
 int main()
 {
     TCliente cliente;
@@ -58,6 +54,7 @@ int main()
                 fflush(stdin);
 
                 adicionarCliente(cliente);
+                statusClienteCad = 1;
 
                 if (totalClientes == QTD_CLIENTES)
                 {
@@ -83,127 +80,150 @@ int main()
             break;
         case 2:
             system("cls");
-            listarClientes();
 
-            printf("Para qual usuario voce quer cadastrar uma conta ?\n");
-            scanf("%i", &numeroConta);
-            fflush(stdin);
+            if(checarCadCliente())
+            {
+                listarClientes();
 
-            printf("Digite o DIA da criacao da conta \n");
-            scanf("%i", &conta.dataAbertura.dia);
-            fflush(stdin);
+                printf("Para qual usuario voce quer cadastrar uma conta ?\n");
+                scanf("%i", &numeroConta);
+                fflush(stdin);
 
-            printf("Digite o MES da criacao da conta \n");
-            scanf("%i", &conta.dataAbertura.mes);
-            fflush(stdin);
+                printf("Digite o DIA da criacao da conta \n");
+                scanf("%i", &conta.dataAbertura.dia);
+                fflush(stdin);
 
-            printf("Digite o ANO da criacao da conta \n");
-            scanf("%i", &conta.dataAbertura.ano);
-            fflush(stdin);
+                printf("Digite o MES da criacao da conta \n");
+                scanf("%i", &conta.dataAbertura.mes);
+                fflush(stdin);
 
-            printf("Digite o saldo inicial da conta \n");
-            scanf("%f", &conta.saldo);
+                printf("Digite o ANO da criacao da conta \n");
+                scanf("%i", &conta.dataAbertura.ano);
+                fflush(stdin);
 
-            conta.numero = numeroConta;
-            conta.cliente = clientes[conta.numero];
-            conta.ativa = 1;
+                printf("Digite o saldo inicial da conta \n");
+                scanf("%f", &conta.saldo);
 
-            adicionarConta(conta);
-            system("cls");
+                statusCad = 1;
+                conta.numero = numeroConta;
+                conta.cliente = clientes[conta.numero];
+                conta.ativa = 1;
+
+                adicionarConta(conta);
+                system("cls");
+            }
+            
             break;
         case 3: 
             //Listar contas
             system("cls");
-            listarContas();
+            if(checarCad())
+                listarContas();
             
             break;
         case 4: 
             //Pesquisar conta
-            printf("Digite o numero da conta para pesquisa \n");
-            scanf("%i", &numeroConta);
+            system("cls");
+            if (checarCad())
+            {
+                printf("Digite o numero da conta para pesquisa \n");
+                scanf("%i", &numeroConta);
 
-            pesquisarConta(numeroConta);
-
+                pesquisarConta(numeroConta);
+            }
             break;
         case 5:
             //Depositar
             system("cls");
-            listarContas();
-            printf("Digite o numero da conta que vc deseja depositar \n");
-            scanf("%i", &numeroConta);
+            if (checarCad())
+            {
+                listarContas();
+                printf("Digite o numero da conta que vc deseja depositar \n");
+                scanf("%i", &numeroConta);
 
-            printf("Digite o valor a ser depositado \n");
-            scanf("%f", &vlr);
+                printf("Digite o valor a ser depositado \n");
+                scanf("%f", &vlr);
 
-            depositar(getConta(numeroConta), vlr);
+                depositar(getConta(numeroConta), vlr);
+            }
+                
             break;
         case 6:
             //Debitar(sacar)
+            
             system("cls");
-            listarContas();
-            printf("Digite o numero da conta que vc deseja sacar \n");
-            scanf("%i", &numeroConta);
-
-            printf("Digite o valor a ser sacado\n");
-            scanf("%f", &vlr);
-
-            if (debitar(getConta(numeroConta), vlr))
+            if (checarCad())
             {
-                printf("Transacao realizada com sucesso !");
-                printf("Novo Saldo: %.2f\n", getConta(numeroConta).saldo);
-            }
-            else
-            {
-                printf("Saldo insuficiente \n");
-                printf("Saldo: %.2f \n", getConta(numeroConta).saldo);
-                printf("Valor a ser sacado: %.2f \n", vlr);
-            }
+                listarContas();
+                printf("Digite o numero da conta que vc deseja sacar \n");
+                scanf("%i", &numeroConta);
 
+                printf("Digite o valor a ser sacado\n");
+                scanf("%f", &vlr);
+
+                if (debitar(getConta(numeroConta), vlr))
+                {
+                    printf("Transacao realizada com sucesso !\n");
+                    printf("Novo Saldo: %.2f\n", getConta(numeroConta).saldo);
+                }
+                else
+                {
+                    printf("Saldo insuficiente \n");
+                    printf("Saldo: %.2f \n", getConta(numeroConta).saldo);
+                    printf("Valor a ser sacado: %.2f \n", vlr);
+                }
+            }
             break;
         case 7:
             //Transferir dinheiro
             system("cls");
-
-            listarContas();
-
-            printf("Digite o numero da conta que recebera a transferencia \n");
-            scanf("%i", &numDestino);
-            fflush(stdin);
-
-            printf("Digite o numero da conta que ira transferir o dinheiro \n");
-            scanf("%i", &numOrig);
-            fflush(stdin);
-
-            printf("Digite o valor a ser transferido \n");
-            scanf("%f", &vlr);
-            fflush(stdin);
-
-            if(transferir(getConta(numOrig), getConta(numDestino), vlr))
+            if (checarCad())
             {
-                printf("Saldo transferido com sucesso !\n");
-                printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
-                printf("Saldo da conta destino: %.2f\n", getConta(numeroConta).saldo);
-            }
-            else
-            {
-                printf("Saldo insuficiente para a transferencia\n");
-                printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
-                printf("Valor a ser transferido> %.2f \n", vlr);
+                listarContas();
+
+                printf("Digite o numero da conta que recebera a transferencia \n");
+                scanf("%i", &numDestino);
+                fflush(stdin);
+
+                printf("Digite o numero da conta que ira transferir o dinheiro \n");
+                scanf("%i", &numOrig);
+                fflush(stdin);
+
+                printf("Digite o valor a ser transferido \n");
+                scanf("%f", &vlr);
+                fflush(stdin);
+
+                if (transferir(getConta(numOrig), getConta(numDestino), vlr))
+                {
+                    printf("Saldo transferido com sucesso !\n");
+                    printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
+                    printf("Saldo da conta destino: %.2f\n", getConta(numeroConta).saldo);
+                }
+                else
+                {
+                    printf("Saldo insuficiente para a transferencia\n");
+                    printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
+                    printf("Valor a ser transferido> %.2f \n", vlr);
+                }
             }
             break;
         case 8: 
             system("cls");
-            //Remover conta
-            printf("Digite o numero da conta que vc deseja excluir \n");
-            scanf("%i", &numeroConta);
-            fflush(stdin);
+            if (checarCad())
+            {
+                //Remover conta
+                printf("Digite o numero da conta que vc deseja excluir \n");
+                scanf("%i", &numeroConta);
+                fflush(stdin);
 
-            if(removerConta(numeroConta))
-                printf("Conta excluida com sucesso !\n");
-            else
-                printf("Conta inexistente \n");
+                if (removerConta(numeroConta))
+                    printf("Conta excluida com sucesso !\n");
+                else
+                    printf("Conta inexistente \n");
 
-            printf("Retornando ao menu...\n");
+                printf("Retornando ao menu...\n");
+            }
+                
             break;
         case 9: 
             //Encerrrar o programa
@@ -219,6 +239,26 @@ int main()
         }
         fflush(stdin);
     }
+}
+int checarCadCliente()
+{
+    int status = 0;
+    if (statusClienteCad)
+        status = 1;
+    else
+        printf("Voce deve cadastrar um cliente primeiro !\n");
+
+    return status;
+}
+int checarCad()
+{
+    int status = 0;
+    if (statusCad)
+        status = 1;
+    else
+        printf("Voce deve cadastrar uma conta primeiro !\n");
+
+    return status;
 }
 
 void adicionarCliente(TCliente cliente)
@@ -331,7 +371,7 @@ void listarContas()
         }
         else
         {
-            printf("Conta #%i estah desativada ! \n", i);
+            printf("Conta #%i estah desativada ! \n\n", i);
         }
     }
 };
