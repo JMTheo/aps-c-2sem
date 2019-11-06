@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lib/banco.h"
-#include "lib/gerenciaClientes.h"
-#include "lib/cliente.h"
+#include "banco.h"
+#include "gerenciaClientes.h"
+#include "cliente.h"
 
 int main()
 {
@@ -46,9 +46,9 @@ int main()
                     gets(cliente.cpf);
                     if (existeCPF(cliente))
                         printf("Voce deve digitar um cpf valido (unico) \n");
-                    
+
                 } while (existeCPF(cliente));
-                
+
                 printf("Digite o telefone do cliente: \n");
                 gets(cliente.telefone);
                 fflush(stdin);
@@ -62,7 +62,7 @@ int main()
                     system("cls");
 
                     printf("Numero maximo de clientes cadastrados ! \n");
-                    
+
                 }
                 else
                 {
@@ -75,7 +75,7 @@ int main()
                         controleCad = 0;
                 }
 
-                
+
             }
             break;
         case 2:
@@ -112,16 +112,16 @@ int main()
                 adicionarConta(conta);
                 system("cls");
             }
-            
+
             break;
-        case 3: 
+        case 3:
             //Listar contas
             system("cls");
             if(checarCad())
                 listarContas();
-            
+
             break;
-        case 4: 
+        case 4:
             //Pesquisar conta
             system("cls");
             if (checarCad())
@@ -146,11 +146,11 @@ int main()
 
                 depositar(getConta(numeroConta), vlr);
             }
-                
+
             break;
         case 6:
             //Debitar(sacar)
-            
+
             system("cls");
             if (checarCad())
             {
@@ -197,7 +197,7 @@ int main()
                 {
                     printf("Saldo transferido com sucesso !\n");
                     printf("Saldo da conta origem: %.2f\n", getConta(numOrig).saldo);
-                    printf("Saldo da conta destino: %.2f\n", getConta(numeroConta).saldo);
+                    printf("Saldo da conta destino: %.2f\n", getConta(numDestino).saldo);
                 }
                 else
                 {
@@ -207,7 +207,7 @@ int main()
                 }
             }
             break;
-        case 8: 
+        case 8:
             system("cls");
             if (checarCad())
             {
@@ -223,9 +223,9 @@ int main()
 
                 printf("Retornando ao menu...\n");
             }
-                
+
             break;
-        case 9: 
+        case 9:
             //Encerrrar o programa
             system("cls");
             printf("Desligando ...\n");
@@ -269,13 +269,13 @@ void adicionarCliente(TCliente cliente)
 }
 
 int existeCPF(TCliente cliente)
-{   
+{
     int status = 0;
     int comparacao;
     int i;
     for (i = 0; i < QTD_CONTAS; i++)
     {
-        //strcmp ==0 (iguais) 
+        //strcmp ==0 (iguais)
         comparacao = strcmp(cliente.cpf, clientes[i].cpf);
         if(comparacao == 0)
         {
@@ -334,7 +334,7 @@ int debitar(TConta conta, float quantia)
         contas[conta.numero].saldo -= quantia;
         status = 1;
     }
-    
+
     return status;
 }
 
@@ -379,7 +379,7 @@ void listarContas()
 void pesquisarConta(int numero)
 {
     TConta c = getConta(numero);
-    
+
     if(c.ativa)
         imprimirConta(c);
     else
@@ -398,5 +398,5 @@ void listarClientes()
             printf("Nome: %s\n\n", clientes[i].nome);
         }
     }
-    
+
 }
